@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-app="RecipeApp" ng-controller="RecipeController">
+
+    <!-- Navbar -->
+    <header>
+        <div class="container nav-container">
+            <h1>🍴 Recipe Box</h1>
+            <button class="btn btn-primary" ng-click="showAddForm()" ng-show="viewMode === 'list'">
+                + Add Recipe
+            </button>
+        </div>
+    </header>
+
+    <div class="container main-content">
+
+        <!-- VIEW: LIST OF RECIPES -->
+        <div ng-show="viewMode === 'list'">
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" placeholder="Search recipes by title or ingredients..." ng-model="searchQuery">
+            </div>
+
+            <div class="recipe-grid">
+                <div class="recipe-card" ng-repeat="recipe in recipes | filter:searchQuery">
+                    <div class="card-img" style="background-image: url('{{recipe.image}}');"></div>
+                    <div class="card-body">
+                        <h3>{{recipe.title}}</h3>
+                        <p class="label">Ingredients:</p>
+                        <p class="truncate">{{recipe.ingredients}}</p>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary" ng-click="editRecipe(recipe)">Edit</button>
+                            <button class="btn btn-danger" ng-click="deleteRecipe(recipe.id)">Delete</button>
+                        </div>
+                        <details>
+                            <summary>View Instructions</summary>
+                            <p class="full-text">{{recipe.instructions}}</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" ng-if="recipes.length === 0">
+                <p>No recipes found. Add one to get started!</p>
+            </div>
+        </div>
+
+        <!-- VIEW: ADD/EDIT FORM -->
+        <div ng-show="viewMode === 'form'" class="form-container">
+            <h2>{{formTitle}}</h2>
+            
+            <form ng-submit="saveRecipe()">
+                <div class="form-group">
+                    <label>Recipe Title *</label>
+                    <input type="text" ng-model="currentRecipe.title" required placeholder="e.g., Homemade Pizza">
+                </div>
+
+                <div class="form-group">
+                    <label>Recipe Image (Max 500KB)</label>
+                    <!-- Custom directive file-input usage -->
+                    <input type="file" id="recipeImage" file-input accept="image/*">
+                    <div class="img-preview" ng-if="currentRecipe.image">
+                        <img ng-src="{{currentRecipe.image}}" alt="Preview">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ingredients *</label>
+                    <textarea ng-model="currentRecipe.ingredients" rows="4" required placeholder="List ingredients here..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Instructions *</label>
+                    <textarea ng-model="currentRecipe.instructions" rows="6" required placeholder="Step by step instructions..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" ng-click="cancelForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" ng-disabled="!currentRecipe.title || !currentRecipe.ingredients">Save Recipe</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

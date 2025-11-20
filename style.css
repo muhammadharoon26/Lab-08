@@ -1,0 +1,143 @@
+:root {
+    --primary: #ff6b6b;
+    --primary-dark: #e05555;
+    --secondary: #4ecdc4;
+    --dark: #2d3436;
+    --light: #f7f9fa;
+    --white: #ffffff;
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 { margin: 0; color: var(--primary); font-size: 1.5rem; }
+
+/* Buttons */
+.btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-secondary { background: var(--secondary); color: white; }
+.btn-danger { background: #ff4757; color: white; }
+.btn:disabled { background: #ccc; cursor: not-allowed; }
+
+/* Search */
+.search-bar { margin: 20px 0; }
+.search-bar input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* Recipe Grid */
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding-bottom: 40px;
+}
+
+.recipe-card {
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+}
+
+.recipe-card:hover { transform: translateY(-5px); }
+
+.card-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-color: #eee;
+}
+
+.card-body { padding: 20px; }
+.card-body h3 { margin-top: 0; margin-bottom: 10px; }
+
+.label { font-weight: bold; margin-bottom: 5px; color: #666; font-size: 0.9rem; }
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #555;
+}
+
+.card-actions {
+    margin: 15px 0;
+    display: flex;
+    gap: 10px;
+}
+
+details { margin-top: 10px; cursor: pointer; color: #555; }
+.full-text { white-space: pre-wrap; line-height: 1.5; }
+
+/* Form Styling */
+.form-container {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    margin: 30px auto;
+}
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+.form-group input[type="text"], 
+.form-group textarea, 
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.img-preview img {
+    max-width: 100px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.empty-state { text-align: center; color: #888; margin-top: 50px; }
