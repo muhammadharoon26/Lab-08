@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Manager</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Load AngularJS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="app.js"></script>
+    <style>
+        /* This hides angular code brackets {{ }} while page loads */
+        [ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }
+    </style>
 </head>
-<body ng-app="RecipeApp" ng-controller="RecipeController">
+<body ng-app="RecipeApp" ng-controller="RecipeController" ng-cloak>
 
-    <!-- Navbar -->
     <header>
         <div class="container nav-container">
             <h1>🍴 Recipe Box</h1>
@@ -23,14 +23,15 @@
 
     <div class="container main-content">
 
-        <!-- VIEW: LIST OF RECIPES -->
+        <!-- LIST VIEW -->
         <div ng-show="viewMode === 'list'">
-            <!-- Search Bar -->
             <div class="search-bar">
-                <input type="text" placeholder="Search recipes by title or ingredients..." ng-model="searchQuery">
+                <!-- Search Input -->
+                <input type="text" ng-model="searchQuery" placeholder="Search recipes...">
             </div>
 
             <div class="recipe-grid">
+                <!-- Filter Logic Here -->
                 <div class="recipe-card" ng-repeat="recipe in recipes | filter:searchQuery">
                     <div class="card-img" style="background-image: url('{{recipe.image}}');"></div>
                     <div class="card-body">
@@ -42,55 +43,52 @@
                             <button class="btn btn-danger" ng-click="deleteRecipe(recipe.id)">Delete</button>
                         </div>
                         <details>
-                            <summary>View Instructions</summary>
+                            <summary>Instructions</summary>
                             <p class="full-text">{{recipe.instructions}}</p>
                         </details>
                     </div>
                 </div>
             </div>
 
-            <!-- Empty State -->
+            <!-- Show this if recipes list is empty -->
             <div class="empty-state" ng-if="recipes.length === 0">
-                <p>No recipes found. Add one to get started!</p>
+                <p>No recipes found. Click "Add Recipe" to start.</p>
             </div>
         </div>
 
-        <!-- VIEW: ADD/EDIT FORM -->
+        <!-- FORM VIEW -->
         <div ng-show="viewMode === 'form'" class="form-container">
             <h2>{{formTitle}}</h2>
-            
             <form ng-submit="saveRecipe()">
                 <div class="form-group">
-                    <label>Recipe Title *</label>
-                    <input type="text" ng-model="currentRecipe.title" required placeholder="e.g., Homemade Pizza">
+                    <label>Title *</label>
+                    <input type="text" ng-model="currentRecipe.title" required>
                 </div>
-
                 <div class="form-group">
-                    <label>Recipe Image (Max 500KB)</label>
-                    <!-- Custom directive file-input usage -->
+                    <label>Image</label>
                     <input type="file" id="recipeImage" file-input accept="image/*">
                     <div class="img-preview" ng-if="currentRecipe.image">
-                        <img ng-src="{{currentRecipe.image}}" alt="Preview">
+                        <img ng-src="{{currentRecipe.image}}" width="100">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label>Ingredients *</label>
-                    <textarea ng-model="currentRecipe.ingredients" rows="4" required placeholder="List ingredients here..."></textarea>
+                    <textarea ng-model="currentRecipe.ingredients" rows="3" required></textarea>
                 </div>
-
                 <div class="form-group">
                     <label>Instructions *</label>
-                    <textarea ng-model="currentRecipe.instructions" rows="6" required placeholder="Step by step instructions..."></textarea>
+                    <textarea ng-model="currentRecipe.instructions" rows="5" required></textarea>
                 </div>
-
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" ng-click="cancelForm()">Cancel</button>
-                    <button type="submit" class="btn btn-primary" ng-disabled="!currentRecipe.title || !currentRecipe.ingredients">Save Recipe</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>
-
     </div>
+
+    <!-- SCRIPTS LOADED AT THE END -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
